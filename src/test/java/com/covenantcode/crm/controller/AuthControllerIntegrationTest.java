@@ -8,12 +8,9 @@ import com.covenantcode.crm.entity.enums.RoleName;
 import com.covenantcode.crm.repository.RoleRepository;
 import com.covenantcode.crm.repository.UserRepository;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,12 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//@ExtendWith(MockitoExtension.class)
 public class AuthControllerIntegrationTest extends BaseIntegrationTest {
-
-    static {
-        System.setProperty("com.github.dockerjava.api.version", "1.40");
-    }
     
     @Autowired
     private MockMvc mockMvc;
@@ -53,6 +45,11 @@ public class AuthControllerIntegrationTest extends BaseIntegrationTest {
             role.setName(RoleName.MANAGER);
             roleRepository.save(role);
         }
+    }
+
+    @AfterEach
+    void tearDown() {
+        userRepository.deleteAll();
     }
 
     @Test
@@ -102,7 +99,7 @@ public class AuthControllerIntegrationTest extends BaseIntegrationTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.status").value(409))
-                .andExpect(jsonPath("$.type").value("conflict-error"));
+                .andExpect(jsonPath("$.type").value("conflict"));
     }
 
     @Test

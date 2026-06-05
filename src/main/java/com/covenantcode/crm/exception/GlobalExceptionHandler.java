@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConflictException.class)
     public ProblemDetail handleConflict(ConflictException ex) {
         ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
-        problem.setType(URI.create("conflict-error"));
+        problem.setType(URI.create("conflict"));
         problem.setProperty("timestamp", Instant.now());
         return problem;
     }
