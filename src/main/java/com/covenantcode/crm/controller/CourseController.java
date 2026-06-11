@@ -33,7 +33,7 @@ public class CourseController {
             @ApiResponse(responseCode = "401", description = "Не авторизован - отсутствует или невалидный JWT токен"),
             @ApiResponse(responseCode = "403", description = "Доступ запрещён - у пользователя нет роли ADMIN или MANAGER")
     })
-    public CourseResponse created(@Valid @RequestBody CourseCreateRequest request) {
+    public CourseResponse create(@Valid @RequestBody CourseCreateRequest request) {
         return courseService.create(request);
     }
 }

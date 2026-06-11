@@ -25,7 +25,7 @@ public class CourseCreateRequest {
     private Integer durationInWeeks;
 
     @NotNull(message = "Цена обязательна")
-    @PositiveOrZero(message = "цена не может быть отрицательной")
+    @PositiveOrZero(message = "Цена не может быть отрицательной")
     private BigDecimal price;
 
     private CourseStatus status;

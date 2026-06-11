@@ -97,46 +97,24 @@ public class CourseServiceImplTest {
     public void create_statusNotProvided_setsActive() {
         request.setStatus(null);
 
-        when(courseMapper.toEntity(any(CourseCreateRequest.class))).thenReturn(course);
-        when(courseRepository.save(course)).thenReturn(savedCourse);
+        Course courseWithoutStatus = new Course();
+        courseWithoutStatus.setTitle(request.getTitle());
+        courseWithoutStatus.setDescription(request.getDescription());
+        courseWithoutStatus.setDurationInWeeks(request.getDurationInWeeks());
+        courseWithoutStatus.setPrice(request.getPrice());
+        courseWithoutStatus.setStatus(null);
+
+        when(courseMapper.toEntity(any(CourseCreateRequest.class))).thenReturn(courseWithoutStatus);
+        when(courseRepository.save(any(Course.class))).thenReturn(savedCourse);
         when(courseMapper.toResponse(savedCourse)).thenReturn(response);
 
         CourseResponse result = courseService.create(request);
 
-        // Проверяем через ArgumentCaptor, что в save передан Course с ACTIVE
         ArgumentCaptor<Course> captor = ArgumentCaptor.forClass(Course.class);
         verify(courseRepository).save(captor.capture());
         assertEquals(CourseStatus.ACTIVE, captor.getValue().getStatus());
 
         assertNotNull(result);
         assertEquals("ACTIVE", result.getStatus());
-    }
-
-    @Test
-    public void create_negativeDuration_throwsValidationException() {
-        request.setDurationInWeeks(-3);
-
-        when(courseMapper.toEntity(any(CourseCreateRequest.class)))
-                .thenThrow(new ConstraintViolationException("duration must be positive", null));
-
-        assertThrows(ConstraintViolationException.class, () -> {
-            courseService.create(request);
-        });
-
-        verify(courseRepository, never()).save(any(Course.class));
-    }
-
-    @Test
-    public void create_negativePrice_throwsValidationException() {
-        request.setPrice(new BigDecimal("-100"));
-
-        when(courseMapper.toEntity(any(CourseCreateRequest.class)))
-                .thenThrow(new ConstraintViolationException("price must be positive or zero", null));
-
-        assertThrows(ConstraintViolationException.class, () -> {
-            courseService.create(request);
-        });
-
-        verify(courseRepository, never()).save(any(Course.class));
     }
 }

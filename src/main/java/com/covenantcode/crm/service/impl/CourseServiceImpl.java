@@ -19,12 +19,13 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
-    public CourseResponse create(CourseCreateRequest request) {
-        if (request.getStatus() == null) {
-            request.setStatus(CourseStatus.ACTIVE);
-        }
+    public CourseResponse create(final CourseCreateRequest request) {
 
         Course course = courseMapper.toEntity(request);
+
+        if (course.getStatus() == null) {
+            course.setStatus(CourseStatus.ACTIVE);
+        }
 
         Course savedCourse = courseRepository.save(course);
         return courseMapper.toResponse(savedCourse);

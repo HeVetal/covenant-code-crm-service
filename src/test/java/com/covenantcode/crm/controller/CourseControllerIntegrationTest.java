@@ -18,13 +18,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
-@TestPropertySource(properties = {
-        "jwt.secret=testSecretKeyForUnitTests1234567890",
-        "jwt.expiration=86400000",
-        "jwt.refresh-expiration=604800000"
-})
 public class CourseControllerIntegrationTest extends BaseIntegrationTest {
 
     @Autowired

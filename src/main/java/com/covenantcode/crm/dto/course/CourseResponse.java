@@ -17,27 +17,27 @@ import java.time.LocalDateTime;
 public class CourseResponse {
 
     @Schema(description = "Идентификатор курса", example = "1")
-    Long id;
+    private Long id;
 
     @Schema(description = "Название", example = "Java-developer pro max plus platinum")
-    String title;
+    private String title;
 
     @Schema(description = "Описание")
-    String description;
+    private String description;
 
     @Schema(description = "Продолжительность курса", example = "6")
-    Integer durationInWeeks;
+    private Integer durationInWeeks;
 
     @Schema(description = "Цена", example = "100000")
-    BigDecimal price;
+    private BigDecimal price;
 
     @Schema(description = "Статус курса", example = "ACTIVE",
             allowableValues = {"ACTIVE", "ARCHIVED"})
-    String status;
+    private String status;
 
     @Schema(description = "Дата создания", example = "2025-01-15T10:00:00Z")
-    LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     @Schema(description = "Дата обновления", example = "2025-01-15T10:00:00Z")
-    LocalDateTime updatedAt;
+    private LocalDateTime updatedAt;
 }
